@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+
+:root {
+  --bg: #FDFBD4;
+  --bg-rgb: 253, 251, 212;
+  --text: #000000;
+  --text-muted: rgba(0, 0, 0, 0.6);
+  --border: rgba(0, 0, 0, 0.12);
+  --card-bg: rgba(0, 0, 0, 0.03);
+  --chip-bg: rgba(0, 0, 0, 0.05);
+
+  --accent: #000000;
+  --accent-text: #FDFBD4;
+}
+
+html.dark {
+  --bg: #0a0a0a;
+  --bg-rgb: 10, 10, 10;
+  --text: #FDFBD4;
+  --text-muted: rgba(253, 251, 212, 0.6);
+  --border: rgba(253, 251, 212, 0.12);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --chip-bg: rgba(255, 255, 255, 0.05);
+  --accent: #FDFBD4;
+  --accent-text: #000000;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow: -moz-scrollbars-none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  min-height: 100vh;
+  scrollbar-width: none;
+}
