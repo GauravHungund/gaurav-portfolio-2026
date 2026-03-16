@@ -94,9 +94,7 @@ function AboutContent() {
             I try to understand how different parts of a system fit together, and I care about writing code that&apos;s simple, readable, and practical.
           </p>
           <p style={{ fontSize: 'clamp(1rem, 1.4vw, 1.15rem)', lineHeight: 1.85, color: 'var(--text-muted)' }}>
-            Most of what I&apos;ve learned has come from building outside the classroom: side projects, hackathons, late-night debugging sessions,
-            and going back to improve things that didn&apos;t feel quite right the first time. I enjoy problems with some ambiguity —
-            especially when there are real users involved and real trade-offs to think through.
+            I&apos;ve built on my graduate CS training by taking on projects outside the classroom — hackathons, late-night debugging sessions, and going back to improve things until they felt right. That combination of theory and hands-on iteration is what draws me to problems with real users and real stakes.
           </p>
         </div>
         {/* Right col */}
@@ -144,97 +142,134 @@ const skillsData = [
 ]
 
 function SkillCard({ skill }) {
-  const [isHovered, setIsHovered] = useState(false)
-  
   return (
-    <motion.div
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+    <div
       style={{
         aspectRatio: '1/1',
-        borderBottom: isHovered ? '3px solid var(--accent)' : '3px solid var(--border)',
+        borderBottom: '3px solid var(--border)',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
+        gap: '0.75rem',
         cursor: 'default',
         overflow: 'hidden',
-        transition: 'border-color 0.3s ease',
+        backgroundColor: 'var(--card-bg)',
+        borderRadius: '12px'
       }}
     >
-      <motion.img 
+      <img 
         src={skill.icon} 
         alt={skill.name} 
-        animate={{ 
-          scale: isHovered ? 0.5 : 1,
-          y: isHovered ? -12 : 0,
-          filter: isHovered ? 'grayscale(0%) opacity(1)' : 'grayscale(100%) opacity(0.4)'
-        }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        style={{ width: '56px', height: '56px', position: 'absolute' }} 
+        style={{ width: '48px', height: '48px', filter: 'grayscale(0%) opacity(1)' }} 
         loading="lazy" 
       />
-      <motion.span
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 12 : 15 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
+      <span
         style={{
           fontFamily: "'Instrument Sans', sans-serif",
           fontWeight: 600,
-          fontSize: '0.75rem',
+          fontSize: '0.85rem',
           color: 'var(--text)',
-          position: 'absolute',
           textAlign: 'center'
         }}
       >
         {skill.name}
-      </motion.span>
-    </motion.div>
+      </span>
+    </div>
   )
 }
 
+const coursesData = [
+  { name: 'Gender Engineering', grade: 'A' },
+  { name: 'Managing Business Relationships', grade: 'B+' },
+  { name: 'Computer Architecture', grade: 'A' },
+  { name: 'Design and analysis of algorithms', grade: 'In Progress' },
+  { name: 'Visual Data Visualization', grade: 'A' },
+  { name: 'Design Patterns', grade: 'A' },
+  { name: 'Advanced Operating Systems', grade: 'A' },
+  { name: 'Directed Research', grade: 'In Progress' },
+  { name: 'Machine Learning', grade: 'A' },
+  { name: 'Database Systems', grade: 'A' },
+  { name: 'Pattern Recognition and Data Mining', grade: 'B+' },
+  { name: 'Computer Networks', grade: 'B+' },
+  { name: 'Mobile Application Development', grade: 'A' },
+]
+
 function SkillsContent() {
+  const [activeTab, setActiveTab] = useState('skills')
+
+  const tabStyle = (isActive) => ({
+    padding: '0.75rem 1.75rem',
+    borderRadius: '100px',
+    border: isActive ? '1px solid var(--accent)' : '1px solid var(--border)',
+    backgroundColor: isActive ? 'var(--accent)' : 'var(--card-bg)',
+    color: isActive ? 'var(--accent-text)' : 'var(--text)',
+    fontWeight: 600,
+    fontSize: '0.95rem',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  })
+
   return (
     <div style={{ padding: '3rem clamp(1.5rem, 5vw, 4rem)', maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
-        gap: '2.5rem'
-      }}>
-        {skillsData.map((skill, index) => (
-          <SkillCard key={index} skill={skill} />
-        ))}
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '3rem', justifyContent: 'center' }}>
+        <button style={tabStyle(activeTab === 'skills')} onClick={() => setActiveTab('skills')}>Skills</button>
+        <button style={tabStyle(activeTab === 'courses')} onClick={() => setActiveTab('courses')}>Courses</button>
       </div>
+
+      {activeTab === 'skills' && (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+          gap: '2.5rem'
+        }}>
+          {skillsData.map((skill, index) => (
+            <SkillCard key={index} skill={skill} />
+          ))}
+        </div>
+      )}
+
+      {activeTab === 'courses' && (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: '1.5rem'
+        }}>
+          {coursesData.map((course, index) => (
+            <div key={index} style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '1.25rem 1.5rem',
+              border: '1px solid var(--border)',
+              borderRadius: '12px',
+              backgroundColor: 'var(--card-bg)'
+            }}>
+              <span style={{ fontSize: '0.95rem', fontWeight: 500, color: 'var(--text)', flex: 1, paddingRight: '1rem' }}>
+                {course.name}
+              </span>
+              <span style={{ 
+                fontSize: '0.85rem', 
+                fontWeight: 600, 
+                padding: '0.4rem 0.75rem', 
+                borderRadius: '8px',
+                backgroundColor: course.grade === 'In Progress' ? 'var(--bg)' : 'var(--accent)',
+                color: course.grade === 'In Progress' ? 'var(--text-muted)' : 'var(--accent-text)',
+                border: course.grade === 'In Progress' ? '1px solid var(--border)' : 'none',
+                whiteSpace: 'nowrap'
+              }}>
+                {course.grade}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
 
 // ── Contact content ───────────────────────────────────────────────────────────
 function ContactContent() {
-  const [sent, setSent] = useState(false)
-  const [form, setForm] = useState({ name: '', message: '' })
-
-  const handle = e => setForm({ ...form, [e.target.name]: e.target.value })
-  const submit = e => {
-    e.preventDefault()
-    setSent(true)
-    setTimeout(() => setSent(false), 3500)
-    setForm({ name: '', message: '' })
-  }
-
-  const inputStyle = {
-    border: '1px solid var(--border)',
-    borderRadius: '14px',
-    padding: '1rem 1.25rem',
-    fontSize: '1rem',
-    backgroundColor: 'var(--card-bg)',
-    color: 'var(--text)',
-    outline: 'none',
-    width: '100%',
-    fontFamily: 'inherit',
-    transition: 'border-color 0.2s',
-  }
-
   const socials = [
     { label: 'GitHub',   href: 'https://github.com/GauravHungund',            icon: <RiGithubFill size={18} /> },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/gaurav-hungund/', icon: <RiLinkedinFill size={18} /> },
@@ -242,71 +277,40 @@ function ContactContent() {
   ]
 
   return (
-    <div style={{ padding: '3rem clamp(1.5rem, 5vw, 4rem)', maxWidth: '1100px', margin: '0 auto' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
+    <div style={{ padding: '3rem clamp(1.5rem, 5vw, 4rem)', maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+        <h3 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600, color: 'var(--accent)', marginBottom: '1.5rem' }}>Get In Touch</h3>
+        <p style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 500, color: 'var(--text)', lineHeight: 1.3, marginBottom: '2.5rem' }}>
+          Open to new opportunities and collaborations.
+        </p>
 
-        {/* Left — email + socials */}
-        <div>
-          <h3 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600, color: 'var(--accent)', marginBottom: '1.5rem' }}>Get In Touch</h3>
-          <p style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 500, color: 'var(--text)', lineHeight: 1.3, marginBottom: '2.5rem' }}>
-            Open to new opportunities and collaborations.
-          </p>
+        {/* Email */}
+        <a
+          href="mailto:ghungund@scu.edu"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem', backgroundColor: 'var(--accent)', color: 'var(--accent-text)', padding: '0.9rem 1.6rem', borderRadius: '100px', fontWeight: 700, fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.01em', transition: 'opacity 0.2s', marginBottom: '2.5rem' }}
+          onMouseEnter={e => e.currentTarget.style.opacity = 0.82}
+          onMouseLeave={e => e.currentTarget.style.opacity = 1}
+        >
+          <RiMailLine size={20} />
+          ghungund@scu.edu
+        </a>
 
-          {/* Email */}
-          <a
-            href="mailto:ghungund@scu.edu"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem', backgroundColor: 'var(--accent)', color: 'var(--accent-text)', padding: '0.9rem 1.6rem', borderRadius: '100px', fontWeight: 700, fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.01em', transition: 'opacity 0.2s', marginBottom: '2.5rem' }}
-            onMouseEnter={e => e.currentTarget.style.opacity = 0.82}
-            onMouseLeave={e => e.currentTarget.style.opacity = 1}
-          >
-            <RiMailLine size={20} />
-            ghungund@scu.edu
-          </a>
-
-          {/* Social buttons */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            {socials.map(({ label, href, icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', border: '1px solid var(--border)', borderRadius: '100px', padding: '0.6rem 1.2rem', fontSize: '0.88rem', fontWeight: 600, color: 'var(--text)', textDecoration: 'none', backgroundColor: 'var(--card-bg)', transition: 'all 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent-text)'; e.currentTarget.style.borderColor = 'var(--accent)' }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--card-bg)'; e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.borderColor = 'var(--border)' }}
-              >
-                {icon} {label}
-              </a>
-            ))}
-          </div>
+        {/* Social buttons */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
+          {socials.map(({ label, href, icon }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', border: '1px solid var(--border)', borderRadius: '100px', padding: '0.6rem 1.2rem', fontSize: '0.88rem', fontWeight: 600, color: 'var(--text)', textDecoration: 'none', backgroundColor: 'var(--card-bg)', transition: 'all 0.2s' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent-text)'; e.currentTarget.style.borderColor = 'var(--accent)' }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--card-bg)'; e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.borderColor = 'var(--border)' }}
+            >
+              {icon} {label}
+            </a>
+          ))}
         </div>
-
-        {/* Right — contact form */}
-        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <input
-            type="text" name="name" value={form.name} onChange={handle} required
-            placeholder="Your name"
-            style={inputStyle}
-            onFocus={e => e.target.style.borderColor = 'var(--accent)'}
-            onBlur={e => e.target.style.borderColor = 'var(--border)'}
-          />
-          <textarea
-            name="message" value={form.message} onChange={handle} required rows={6}
-            placeholder="What are you working on?"
-            style={{ ...inputStyle, resize: 'none' }}
-            onFocus={e => e.target.style.borderColor = 'var(--accent)'}
-            onBlur={e => e.target.style.borderColor = 'var(--border)'}
-          />
-          <button
-            type="submit"
-            style={{ border: 'none', backgroundColor: 'var(--accent)', color: 'var(--accent-text)', fontWeight: 700, padding: '1.1rem', borderRadius: '14px', fontSize: '1rem', cursor: 'pointer', transition: 'opacity 0.2s', fontFamily: 'inherit' }}
-            onMouseEnter={e => e.currentTarget.style.opacity = 0.9}
-            onMouseLeave={e => e.currentTarget.style.opacity = 1}
-          >
-            {sent ? 'Message sent.' : 'Send Message'}
-          </button>
-        </form>
-
       </div>
     </div>
   )
@@ -420,7 +424,7 @@ function ExperienceContent() {
       {/* Resume Download */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '2.5rem' }}>
         <a 
-          href="/GauravHungundSDE1.pdf" 
+          href="/GauravHungundResume.pdf" 
           target="_blank"
           rel="noreferrer"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--accent)', color: 'var(--accent-text)', padding: '0.75rem 1.5rem', borderRadius: '100px', fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none', transition: 'opacity 0.2s' }}
@@ -546,7 +550,7 @@ function ExperienceContent() {
 const sections = [
   { id: 'about',      label: 'ABOUT',      content: <AboutContent /> },
   { id: 'experience', label: 'EXPERIENCE', content: <ExperienceContent /> },
-  { id: 'skills',     label: 'SKILLS',     content: <SkillsContent /> },
+  { id: 'skills',     label: 'SKILLS & COURSES',     content: <SkillsContent /> },
   { id: 'projects',   label: 'PROJECTS',   content: <ProjectsBlog /> },
   { id: 'contact',    label: 'CONTACT',    content: <ContactContent /> },
 ]
