@@ -180,11 +180,10 @@ function SkillCard({ skill }) {
 }
 
 const coursesData = [
-  { name: 'Gender Engineering', grade: 'A' },
   { name: 'Managing Business Relationships', grade: 'B+' },
   { name: 'Computer Architecture', grade: 'A' },
   { name: 'Design and analysis of algorithms', grade: 'In Progress' },
-  { name: 'Visual Data Visualization', grade: 'A' },
+  { name: 'Data visualization', grade: 'A' },
   { name: 'Design Patterns', grade: 'A' },
   { name: 'Advanced Operating Systems', grade: 'A' },
   { name: 'Directed Research', grade: 'In Progress' },
