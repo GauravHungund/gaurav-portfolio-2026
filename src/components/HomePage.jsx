@@ -185,7 +185,7 @@ const coursesData = [
   { name: 'Design and analysis of algorithms', grade: 'In Progress' },
   { name: 'Data visualization', grade: 'A' },
   { name: 'Design Patterns', grade: 'A' },
-  { name: 'Advanced Operating Systems', grade: 'A' },
+  { name: 'Operating Systems', grade: 'A' },
   { name: 'Directed Research', grade: 'In Progress' },
   { name: 'Machine Learning', grade: 'A' },
   { name: 'Database Systems', grade: 'A' },
